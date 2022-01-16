@@ -1,0 +1,9 @@
+<div class="main-wrapper">
+    <app-card *ngFor="let card of this.allCard" [cardContent]="card" (deleteEvent)="this.deleteCard(card)"
+        (editEvent)="this.onEditCard(card)"></app-card>
+    <div class="card add-new" (click)="this.addNewCard()">
+        <div>
+           +
+        </div>
+    </div>
+</div>

@@ -1,0 +1,40 @@
+@import '../../variables.scss';
+
+.main-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    font-family: monospace;
+    max-width: 1500px;
+    height: 100vh;
+    margin: auto;
+    flex-wrap: wrap;
+    .add-new {
+        width: 300px;
+        height: 215px;
+        border: 2px dashed $boder-color;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        div {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 2px dashed $boder-color;
+            border-radius: 50%;
+            font-size: 30px;
+            color: $boder-color;
+        }
+    }
+    .add-new:hover {
+        border: 2px dashed $black;
+        div {
+            border: 2px dashed $black;
+            color: $black;
+        }
+    }
+}

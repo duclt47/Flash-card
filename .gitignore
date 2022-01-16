@@ -1,0 +1,8 @@
+server/node_modules
+server/uploads
+server/request.http
+
+
+
+client/node_modules
+client/package-lock.json

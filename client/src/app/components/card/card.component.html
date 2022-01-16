@@ -1,0 +1,22 @@
+<div class="card">
+    <div class="card-header">
+        <div class="title">
+            {{cardContent.vocabulary}}
+            <i-bs name="info-circle-fill" [title]=" cardContent.meaning"></i-bs>
+        </div>
+        <div class="btn-group" dropdown>
+            <button id="button-animated" dropdownToggle type="button" class="btn btn-primary dropdown-toggle"
+                    aria-controls="dropdown-animated"><span class="caret"></span>
+            </button>
+            <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu"
+                role="menu" aria-labelledby="button-animated">
+              <li role="menuitem" (click)="this.edit()"><a class="dropdown-item" href="#">Edit</a></li>
+              <li role="menuitem" (click)="this.delete(this.cardContent?._id)"><a class="dropdown-item text-danger" href="#">Delete</a>
+              </li>
+            </ul>
+          </div>
+    </div>
+    <div class="card-content">
+        <img src="assets/imgs/coming-soon.png" alt="">
+    </div>
+</div>
