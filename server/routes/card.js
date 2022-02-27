@@ -11,11 +11,20 @@ var storage = multer.diskStorage({
         cb(null, 'uploads')
     },
     filename: (req, file, cb) => {
-        cb(null, file.fieldname + '-' + Date.now())
+        var filetype = '';
+        if(file.mimetype === 'image/gif') {
+          filetype = 'gif';
+        }
+        if(file.mimetype === 'image/png') {
+          filetype = 'png';
+        }
+        if(file.mimetype === 'image/jpeg') {
+          filetype = 'jpg';
+        }
+        cb(null, 'image-' + Date.now() + '.' + filetype);
     }
 });
 var upload = multer({ storage: storage });
-
 
 //@route Card api/Cards
 //@desc create Card
@@ -24,17 +33,12 @@ router.post('/', upload.single('image'), async (req, res) => {
     const { vocabulary, example, meaning } = req.body;
     let image;
     try {
-        image = {
-            data: fs.readFileSync(path.join(__dirname, '..' + '/uploads/' + req.file.filename)),
-            contentType: 'image/png'
-        }
-        // res.sendFile(__dirname + `/uploads/${req.file.filename}`);
+        console.log(req.file);
+        image = req.protocol + "://" + req.headers.host + '/' + req.file.path;
     } catch (error) {
         return res.status(400).json({ success: false, message: error ? error : "Can not upload image!" });
     }
 
-    console.log(image)
-    
     if (!vocabulary) {
         return res.status(400).json({ success: false, message: "Vocabulary is required!" });
     }
@@ -54,7 +58,7 @@ router.post('/', upload.single('image'), async (req, res) => {
     try {
         const newCart = new Card({
             vocabulary,
-            example,
+            // example,
             image,
             meaning,
             // user: req.userId || "anonymous"
@@ -77,7 +81,6 @@ router.get('/', verifyToken, async (req, res) => {
     try {
         const cards = await Card.find();
         res.json({ success: true, cards })
-        // res.sendFile(__dirname + `/uploads/${req.file.filename}`);
     } catch {
         console.log(error);
         res.status(500).json({ success: false, message: 'Internal server error' });
@@ -88,9 +91,16 @@ router.get('/', verifyToken, async (req, res) => {
 //@route PUT api/Cards/:id
 //@desc update Card
 //@access private
-router.put('/:id', verifyToken, async (req, res) => {
-    const { vocabulary, example, image, meaning } = req.body;
-
+router.put('/:id', verifyToken, upload.single('image'), async (req, res) => {
+    const { vocabulary, example, meaning } = req.body;
+    let image;
+    if (req.file) {
+        try {
+            image = req.protocol + "://" + req.headers.host + '/' + req.file.path;
+        } catch (error) {
+            return res.status(400).json({ success: false, message: error ? error : "Can not upload image!" });
+        }
+    }
 
     if (!vocabulary) {
         return res.status(400).json({ success: false, message: "Vocabulary is required!" });
@@ -100,9 +110,9 @@ router.put('/:id', verifyToken, async (req, res) => {
     //     return res.status(400).json({success: false, message: "Example is required!"});
     // }
 
-    // if (!image) {
-    //     return res.status(400).json({success: false, message: "Image is required!"});
-    // }
+    if (!image) {
+        return res.status(400).json({success: false, message: "Image is required!"});
+    }
 
     if (!meaning) {
         return res.status(400).json({ success: false, message: "meaning of word is required!" });
@@ -110,7 +120,7 @@ router.put('/:id', verifyToken, async (req, res) => {
     try {
         let updatedCard = {
             vocabulary,
-            example,
+            // example,
             image,
             meaning,
             user: req.userId || "anonymous"

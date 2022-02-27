@@ -2,6 +2,7 @@ const express = require ("express");
 const mongoose = require("mongoose");
 const cors = require('cors');
 var bodyParser = require('body-parser');
+var path = require('path');
 
 require('dotenv').config();
 const cardRouter = require('./routes/card');
@@ -23,15 +24,11 @@ connectDB();
 const app = express();
 
 app.use(express.json());
-// app.use(express.urlencoded());
-app.use(express.urlencoded({extended: true}));
-app.use(cors());
 
-// app.use(express.json());
-// app.use(express.urlencoded({extended: true}));
-// app.use(morgan('dev'));
-// app.use(bodyParser.urlencoded({ extended: false }))
-// app.use(bodyParser.json())
+app.use(express.urlencoded());
+app.use(cors());
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
+
 app.use('/api/card', cardRouter)
 
 const PORT = 5000;

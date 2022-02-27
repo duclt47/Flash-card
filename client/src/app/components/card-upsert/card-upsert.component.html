@@ -4,7 +4,7 @@
         <input class="mb-20" type="text" placeholder="New vocabulary" name="vocabulary" [(ngModel)]="this.card.vocabulary">
         <input class="mb-20" type="text" placeholder="Meaning" name="meaning" [(ngModel)]="this.card.meaning">
         <label for="example_image">Image for this vocabulary</label>
-        <input type="file" id="example_image" placeholder="example image">
+        <input type="file" id="example_image" placeholder="example image" (change)="handleFileInput($event.target.files)">
     </div>
     <div class="footer">
         <button type="button" (click)="this.cancel()" class="btn btn-outline-dark mr-20">Cancel</button>

@@ -13,8 +13,9 @@ export class CardUpsertComponent implements OnInit {
     @Output() submitEvent = new EventEmitter<any>();
     @Output() cancelEvent = new EventEmitter<any>();
 
-    public card: any = {};
+    public card: ICard = {};
     public isEdit;
+    public checkoutForm;
     constructor(
         private mainService: MainService,
         private modalService: BsModalService
@@ -31,6 +32,10 @@ export class CardUpsertComponent implements OnInit {
         } else {
             this.edit();
         }
+    }
+
+    public handleFileInput(file): void {
+        this.card.image = file[0];
     }
 
     private edit(): void {

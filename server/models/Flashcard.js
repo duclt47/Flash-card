@@ -7,13 +7,13 @@ const CardSchema = new Schema({
         type: String,
         required: true,
     },
-    example: {
+    // example: {
+    //     type: String,
+    //     required: true,
+    // },
+    image:  {
         type: String,
         required: true,
-    },
-    image:  {
-        data: Buffer,
-        contentType: String
     },
     meaning: {
         type: String,
